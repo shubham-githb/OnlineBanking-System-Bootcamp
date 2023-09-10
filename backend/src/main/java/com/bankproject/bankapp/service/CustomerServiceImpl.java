@@ -3,9 +3,8 @@ package com.bankproject.bankapp.service;
 import com.bankproject.bankapp.entity.Customer;
 import com.bankproject.bankapp.exception.CustomerNotFoundException;
 import com.bankproject.bankapp.repository.CustomerRepository;
-import lombok.*;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-
 
 import java.util.List;
 import java.util.Optional;

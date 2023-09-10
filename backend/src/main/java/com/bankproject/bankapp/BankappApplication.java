@@ -3,7 +3,7 @@ package com.bankproject.bankapp;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication(scanBasePackages = "com.bankproject.bankapp")
+@SpringBootApplication
 public class BankappApplication {
 
 	public static void main(String[] args) {

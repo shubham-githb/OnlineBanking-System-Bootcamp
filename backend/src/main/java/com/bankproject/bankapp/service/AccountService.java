@@ -1,6 +1,7 @@
 package com.bankproject.bankapp.service;
 
 import com.bankproject.bankapp.entity.Account;
+
 import java.util.List;
 
 public interface AccountService {

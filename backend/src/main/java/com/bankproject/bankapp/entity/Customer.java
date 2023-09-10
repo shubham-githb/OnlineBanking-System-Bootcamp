@@ -1,8 +1,8 @@
 package com.bankproject.bankapp.entity;
 
-import jakarta.persistence.*;
-import lombok.*;
-
+import javax.persistence.*;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 @Data
