@@ -2,11 +2,14 @@ package com.bankproject.bankapp.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
-@Entity
 @Data
+@RequiredArgsConstructor
+@Entity
+@Table(name="Account")
 public class Account {
 
     @Id
@@ -17,10 +20,9 @@ public class Account {
     private String accountNumber;
 
     @ManyToOne
-    @JoinColumn(name = "customer_id")
+    @JoinColumn(name = "customerId")
     private Customer customer;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     private List<Transaction> transactions;
-
 }
