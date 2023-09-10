@@ -16,7 +16,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"firstName\": \"Praneel\",\r\n    \"lastName\": \"Jimmy\",\r\n    \"password\": \"pswd\",\r\n    \"email\": \"prajim18@gmail.com\"\r\n}",
+							"raw": "{\r\n    \"firstName\": \"\",\r\n    \"lastName\": \"\",\r\n    \"password\": \"\",\r\n    \"email\": \"\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -118,7 +118,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"firstName\": \"Praneel\",\r\n    \"lastName\": \"Jimmy\",\r\n    \"password\": \"pswd\",\r\n    \"email\": \"prajim18@gmail.com\"\r\n}",
+							"raw": "{\r\n    \r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -220,7 +220,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"firstName\": \"Praneel\",\r\n    \"lastName\": \"Jimmy\",\r\n    \"password\": \"pswd\",\r\n    \"email\": \"prajim18@gmail.com\"\r\n}",
+							"raw": "{\r\n    \r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
