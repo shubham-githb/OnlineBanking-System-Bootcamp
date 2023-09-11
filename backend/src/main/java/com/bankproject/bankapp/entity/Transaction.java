@@ -1,11 +1,10 @@
 package com.bankproject.bankapp.entity;
 
 import javax.persistence.*;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
-import java.math.BigDecimal;
-import java.util.Date;
+import java.sql.Timestamp;
+
 
 @Data
 @RequiredArgsConstructor
@@ -17,11 +16,14 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long transactionId;
 
-    @Column
-    private String date;
+    @Column(nullable = false)
+    private String transactionType;
 
-    @Column
-    private double amount;
+    @Column(nullable = false)
+    private double transactionAmount;
+
+    @Column(nullable = false)
+    private Timestamp timestamp;
 
     @ManyToOne
     @JoinColumn(name = "accountId")

@@ -27,6 +27,10 @@ public class CustomerController {
     public ResponseEntity<Customer> saveCustomer(@RequestBody Customer customer) {
         return new ResponseEntity<>(customerService.saveCustomer(customer), HttpStatus.CREATED);
     }
+    @PostMapping("/register")
+    public ResponseEntity<Customer> addnewCustomer(@RequestBody Customer customer) {
+        return new ResponseEntity<>(customerService.saveCustomer(customer), HttpStatus.CREATED);
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteCustomer(@PathVariable Long id) {

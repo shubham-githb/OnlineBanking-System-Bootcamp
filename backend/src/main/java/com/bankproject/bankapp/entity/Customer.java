@@ -1,9 +1,10 @@
 package com.bankproject.bankapp.entity;
 
 import javax.persistence.*;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
-import java.util.List;
+import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
+
+import java.util.*;
 
 @Data
 @RequiredArgsConstructor
@@ -16,9 +17,6 @@ public class Customer {
     private Long customerId;
 
     @Column(nullable = false)
-    private String password;
-
-    @Column(nullable = false)
     private String firstName;
 
     @Column(nullable = false)
@@ -26,6 +24,18 @@ public class Customer {
 
     @Column(nullable = false, unique = true)
     private String email;
+
+    @Column(nullable = false)
+    private String password;
+
+    @Column(nullable = false)
+    private int pin;
+
+    @Column(nullable = false)
+    private Date dateOfBirth;
+
+    @Column(nullable = false)
+    private String address;
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
     private List<Account> accounts;

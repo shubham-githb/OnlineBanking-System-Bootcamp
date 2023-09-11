@@ -1,10 +1,10 @@
 package com.bankproject.bankapp.entity;
 
 import javax.persistence.*;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import java.util.List;
+import java.util.*;
 
 @Data
 @RequiredArgsConstructor
@@ -17,7 +17,16 @@ public class Account {
     private Long accountId;
 
     @Column(nullable = false, unique = true)
-    private String accountNumber;
+    private Long accountNumber;
+
+    @Column(nullable = false)
+    private String accountType;
+
+    @Column(nullable = false)
+    private double accountBalance;
+
+    @Column(nullable = false)
+    private Date openDate;
 
     @ManyToOne
     @JoinColumn(name = "customerId")
