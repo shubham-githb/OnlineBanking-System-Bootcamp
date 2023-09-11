@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @AllArgsConstructor
 @Service
-public class AccountServiceImpl {
+public class AccountServiceImpl implements AccountService{
 
     AccountRepository accountRepository;
 
