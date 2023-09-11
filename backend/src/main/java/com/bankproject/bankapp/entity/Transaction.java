@@ -17,11 +17,11 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long transactionId;
 
-    @Column(nullable = false)
-    private Date date;
+    @Column
+    private String date;
 
-    @Column(nullable = false)
-    private BigDecimal amount;
+    @Column
+    private double amount;
 
     @ManyToOne
     @JoinColumn(name = "accountId")
