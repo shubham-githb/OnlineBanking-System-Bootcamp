@@ -1,27 +1,24 @@
-import "../node_modules/bootstrap/dist/css/bootstrap.css";
-import "../node_modules/bootstrap/dist/js/bootstrap.js";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
-
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import LandingPage from "./pages/LandingPage/landingPage";
-import LoginPage from "./pages/LoginPage/loginPage";
-import SignupPage from "./pages/SignupPage/signupPage";
 import HomePage from "./pages/HomePage/homePage";
-import AccountCreationPage from "./pages/AccountCreationPage/accountCreationPage";
+import LoginPage from "./pages/LoginPage/loginPage";
+import RegisterPage from "./pages/RegisterPage/registerPage";
+import Dashboard from "./pages/Dashboard/dashboard";
+import TransactionPage from "./pages/TransactionPage/transactionPage";
 
 function App() {
   return (
-    <Router>
-      <div className="App">
+    <div className="App">
+      <BrowserRouter>
         <Routes>
-          <Route exact path="/" element={<LandingPage />} />
+          <Route exact path="/" element={<HomePage />} />
           <Route exact path="/login" element={<LoginPage />} />
-          <Route exact path="/signup" element={<SignupPage />} />
-          <Route exact path="/home" element={<HomePage />} />
-          <Route exact path="/createacc" element={<AccountCreationPage />} />
+          <Route exact path="/register" element={<RegisterPage />} />
+          <Route exact path="/dashboard" element={<Dashboard />} />
+          <Route exact path="/transaction" element={<TransactionPage />} />
         </Routes>
-      </div>
-    </Router>
+      </BrowserRouter>
+    </div>
   );
 }
 
