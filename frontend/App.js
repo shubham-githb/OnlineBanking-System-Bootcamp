@@ -15,6 +15,7 @@ import AltDashboard from "./pages/AltDashboard/Dashboard";
 import DataGetter from "./components/datagetter";
 import AdminLogin from "./pages/Admin/adminLogin";
 import AdminDashBoard from "./pages/Admin/admindashboard.jsx";
+import ForgotPassword from "./pages/ForgotPassword/forgotPassword";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route exact path="/" element={<LoginPage />} />
           <Route exact path="/login" element={<LoginPage />} />
           <Route exact path="/register" element={<RegisterPage />} />
+          <Route exact path="/forgotpassword" element={<ForgotPassword />} />
           <Route exact path="/datagetter" element={<DataGetter />} />
           <Route exact path="/createAccount" element={<AccountCreation />} />
           <Route exact path="/viewAccounts" element={<AccountDisplay />} />

@@ -27,6 +27,7 @@ import axios from "axios";
 import { Oval, ProgressBar } from "react-loader-spinner";
 import AccountStatement from "./accountStatement";
 import AccountSummary from "./accountSummary";
+import MakeAccount from "./makeAccount";
 
 const drawerWidth = 240;
 
@@ -141,6 +142,17 @@ export default function AltDashboard() {
                   }}
                 >
                   <AccountStatement />
+                </Paper>
+              </Grid>
+              <Grid item xs={12} md={8} lg={12}>
+                <Paper
+                  sx={{
+                    p: 2,
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
+                >
+                  <MakeAccount />
                 </Paper>
               </Grid>
               <Grid item xs={12} md={8} lg={12}>

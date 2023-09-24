@@ -82,7 +82,7 @@ export default function AccountStatement() {
 
     return (
       <Dialog fullWidth={true} maxWidth="lg" open={open} onClose={handleClose}>
-        <DialogTitle color="primary">Account Summary</DialogTitle>
+        <DialogTitle color="primary">Account Statement</DialogTitle>
         <Box
           sx={{
             display: "flex",
@@ -124,7 +124,7 @@ export default function AccountStatement() {
 
   return (
     <React.Fragment>
-      <Title>Get Account Summary</Title>
+      <Title>Get Account Statement</Title>
       {loading ? (
         <Box sx={{ margin: "auto" }}>
           <Oval

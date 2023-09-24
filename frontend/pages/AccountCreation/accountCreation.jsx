@@ -15,6 +15,14 @@ const AccountCreation = () => {
   const [debitCardReq, setdebitCardReq] = useState();
   const [creditCardReq, setcreditCardReq] = useState();
 
+  const currdate = new Date();
+  const dateString =
+    currdate.getFullYear() +
+    "-" +
+    currdate.getMonth() +
+    "-" +
+    currdate.getDate();
+
   const formsubmitHandler = async (evt) => {
     await axios
       .post(
@@ -24,7 +32,7 @@ const AccountCreation = () => {
           branch: branch,
           ifsccode: ifsccode,
           accountBalance: accountBalance,
-          openDate: openDate,
+          openDate: dateString,
           debitCardReq: debitCardReq,
           creditCardReq: creditCardReq,
         }
