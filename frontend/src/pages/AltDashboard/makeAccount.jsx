@@ -149,11 +149,11 @@ export default function MakeAccount() {
                 onChange={(value) => {
                   let tp = new Date(value);
                   let final =
-                    tp.getFullYear().toString() +
-                    "-" +
-                    tp.getMonth().toString() +
-                    "-" +
-                    tp.getDate().toString();
+                    tp.getFullYear().toString() + "-" + tp.getMonth() < 10
+                      ? "0" + tp.getMonth().toString()
+                      : tp.getMonth().toString() +
+                        "-" +
+                        tp.getDate().toString();
                   console.log(final.toString());
                   setopendate(final);
                 }}

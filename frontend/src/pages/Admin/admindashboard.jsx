@@ -23,6 +23,7 @@ import axios from "axios";
 import { Oval, ProgressBar } from "react-loader-spinner";
 import RegisterNewUser from "./registerNewUser";
 import VerifyCustomerPage from "./verifyCustomerPage";
+import SearchCustomer from "./searchCustomer";
 
 const drawerWidth = 240;
 
@@ -101,6 +102,18 @@ export default function AdminDashBoard() {
                   }}
                 >
                   <VerifyCustomerPage />
+                </Paper>
+              </Grid>
+              <Grid item xs={12}>
+                <Paper
+                  sx={{
+                    p: 2,
+                    display: "flex",
+                    flexDirection: "column",
+                    height: 250,
+                  }}
+                >
+                  <SearchCustomer />
                 </Paper>
               </Grid>
             </Grid>
