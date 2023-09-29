@@ -6,12 +6,15 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import TextField from "@mui/material/TextField";
 import Title from "./Title";
 import { Button } from "@mui/material";
 
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Oval, ProgressBar } from "react-loader-spinner";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function CheckBalance() {
   const [customer, setcustomer] = useState(
@@ -20,9 +23,9 @@ export default function CheckBalance() {
   const [altstatement, setaltstatement] = useState("");
   const [accounts, setaccounts] = useState([]);
   const [selectedaccount, setselectedaccount] = useState(0);
-  const [accountbalance, setaccountbalance] = useState(0);
+  const [amount, setamount] = useState(0);
   const [loading, setloading] = useState(true);
-  const [balanceloading, setbalanceloading] = useState(false);
+  const [amountaddloading, setamountaddloading] = useState(false);
 
   const getUserAccounts = async () => {
     await axios
@@ -45,35 +48,40 @@ export default function CheckBalance() {
     getUserAccounts();
   }, [customer]);
 
-  const getAccountBalance = async () => {
-    setbalanceloading(true);
+  const addAccountFunds = async () => {
     await axios
-      .get(
-        `http://localhost:8080/account/getAccountByAccountNumber/${selectedaccount}`
-      )
+      .put(`http://localhost:8080/account/addAmount/${selectedaccount}`, {
+        amount: amount,
+      })
       .then((res) => {
         console.log(res.data);
-        setaccountbalance(res.data.accountBalance);
-        setbalanceloading(false);
+        toast.success(res.data.responseText);
+        toast.success("Current Balance : " + res.data.account.accountBalance);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   };
 
-  const handleCheckBalance = (event) => {
-    getAccountBalance();
+  const handleAddFunds = () => {
+    setamountaddloading(true);
+    addAccountFunds();
+    setamountaddloading(false);
   };
 
   return (
     <React.Fragment>
+      <ToastContainer />
       {altstatement !== "" ? (
         <>
-          <Title>Get Account Balance</Title>
+          <Title>Add Funds</Title>
           <Box sx={{ margin: "auto", textAlign: "center" }}>
             <Title>Customer has not made any accounts yet!</Title>
           </Box>
         </>
       ) : (
         <>
-          <Title>Check Account Balance</Title>
+          <Title>Add Funds</Title>
           {loading ? (
             <Box sx={{ margin: "auto" }}>
               <Oval
@@ -117,31 +125,40 @@ export default function CheckBalance() {
                   ))}
                 </Select>
               </FormControl>
-              {balanceloading ? (
-                <Oval
-                  height={80}
-                  width={80}
-                  color="#4fa94d"
-                  wrapperStyle={{}}
-                  wrapperClass=""
-                  visible={true}
-                  ariaLabel="oval-loading"
-                  secondaryColor="#4fa94d"
-                  strokeWidth={2}
-                  strokeWidthSecondary={2}
-                />
+              <TextField
+                margin="normal"
+                required
+                fullWidth
+                name="amount"
+                label="Amount"
+                type="amount"
+                id="amount"
+                onChange={(evt) => setamount(evt.target.value)}
+              />
+              {amountaddloading ? (
+                <Box sx={{ margin: "auto" }}>
+                  <Oval
+                    height={80}
+                    width={80}
+                    color="#4fa94d"
+                    wrapperStyle={{}}
+                    wrapperClass=""
+                    visible={true}
+                    ariaLabel="oval-loading"
+                    secondaryColor="#4fa94d"
+                    strokeWidth={2}
+                    strokeWidthSecondary={2}
+                  />
+                </Box>
               ) : (
-                <Typography component="p" sx={{ margin: "3%" }} variant="h4">
-                  ${accountbalance}
-                </Typography>
+                <Button
+                  variant="contained"
+                  sx={{ padding: "3%", margin: "4%" }}
+                  onClick={handleAddFunds}
+                >
+                  Add Funds
+                </Button>
               )}
-              <Button
-                variant="contained"
-                sx={{ padding: "3%", margin: "4%" }}
-                onClick={handleCheckBalance}
-              >
-                Check Balance
-              </Button>
             </Box>
           )}
         </>

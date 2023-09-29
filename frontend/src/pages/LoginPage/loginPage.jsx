@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { Link as RouterLink } from "react-router-dom";
+import { useNavigate, Link as RouterLink } from "react-router-dom";
 import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
@@ -29,13 +30,19 @@ export default function LoginPage() {
         password: password,
       })
       .then((res) => {
-        console.log(res);
         let loggedInCustomer = res.data.customerdata;
         sessionStorage.setItem(
           "loggedInCustomer",
           JSON.stringify(loggedInCustomer)
         );
-        navigate("/altdashboard");
+        toast.success(res.data.responseText, {
+          autoClose: 5000,
+          onClose: navigate("/altdashboard"),
+        });
+      })
+      .catch((err) => {
+        console.log(err.response.data.responseText);
+        toast.error(err.response.data.responseText, { autoClose: 5000 });
       });
   };
 
@@ -69,6 +76,7 @@ export default function LoginPage() {
               alignItems: "center",
             }}
           >
+            <ToastContainer />
             <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
               <LockOutlinedIcon />
             </Avatar>

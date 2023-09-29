@@ -1,12 +1,13 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import dayjs from "dayjs";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -23,7 +24,8 @@ import { Link as RouterLink } from "react-router-dom";
 
 const defaultTheme = createTheme();
 
-export default function LoginPage() {
+export default function LoginPage(props) {
+  const navigate = useNavigate();
   const [firstName, setfirstName] = useState("");
   const [lastName, setlastName] = useState("");
   const [email, setemail] = useState("");
@@ -49,6 +51,20 @@ export default function LoginPage() {
       })
       .then((res) => {
         console.log(res.data);
+        toast.success("Account created succesfully", {
+          autoClose: 5000,
+          onClose: () => {
+            navigate("/login");
+          },
+        });
+      })
+      .catch((err) => {
+        toast.error(err.response.data.responseText, {
+          autoClose: 5000,
+          onClose: () => {
+            console.log("closed");
+          },
+        });
       });
   };
 
@@ -64,6 +80,7 @@ export default function LoginPage() {
             alignItems: "center",
           }}
         >
+          <ToastContainer />
           <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
             <LockOutlinedIcon />
           </Avatar>
@@ -148,8 +165,8 @@ export default function LoginPage() {
               <Grid item xs={12}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
-                    label="Uncontrolled picker"
-                    defaultValue={dayjs("2022-04-17")}
+                    label="Date Of Birth"
+                    // defaultValue={dayjs("2001-01-01")}
                     onChange={(value) => setdateOfBirth(value.toString())}
                   />
                 </LocalizationProvider>

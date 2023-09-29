@@ -21,6 +21,7 @@ export default function RecentTransactions() {
   const [customer, setcustomer] = useState(
     JSON.parse(sessionStorage.getItem("loggedInCustomer"))
   );
+  const [altstatement, setaltstatement] = useState("");
   const [recenttransactions, setrecenttransactions] = useState([]);
   const [loading, setloading] = useState(true);
 
@@ -30,8 +31,11 @@ export default function RecentTransactions() {
         `http://localhost:8080/customer/getRecentTransactions/${customer.customerId}`
       )
       .then((res) => {
-        console.log(res.data);
-        setrecenttransactions(res.data);
+        setrecenttransactions(res.data.recentTransactions);
+        setloading(false);
+      })
+      .catch((err) => {
+        setaltstatement(err.response.data.responseText);
         setloading(false);
       });
   };
@@ -42,59 +46,70 @@ export default function RecentTransactions() {
 
   return (
     <React.Fragment>
-      {loading ? (
-        <Box sx={{ margin: "auto" }}>
-          <Oval
-            height={80}
-            width={80}
-            color="#4fa94d"
-            wrapperStyle={{}}
-            wrapperClass=""
-            visible={true}
-            ariaLabel="oval-loading"
-            secondaryColor="#4fa94d"
-            strokeWidth={2}
-            strokeWidthSecondary={2}
-          />
-        </Box>
+      {altstatement !== "" ? (
+        <>
+          <Title>Get Recent Transactions</Title>
+          <Box sx={{ margin: "auto", textAlign: "center" }}>
+            <Title>Customer has not made any transactions yet!</Title>
+          </Box>
+        </>
       ) : (
-        <Box>
-          <Title>Recent Transactions</Title>
-          <Table size="small">
-            <TableHead>
-              <TableRow>
-                <TableCell>TimeStamp</TableCell>
-                <TableCell>Credit / Debit</TableCell>
-                <TableCell>Transaction Type</TableCell>
-                <TableCell>Transaction Amount</TableCell>
-                <TableCell>Receiver Account Number</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {recenttransactions.map((row) => (
-                <TableRow key={row.transactionId}>
-                  <TableCell>{row.txtime}</TableCell>
-                  <TableCell>{row.creditOrDebit}</TableCell>
-                  <TableCell>{row.transactionType}</TableCell>
-                  <TableCell>{row.transactionAmount}</TableCell>
-                  <TableCell>{row.receiverAccountNumber}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-          <Button
-            variant="contained"
-            sx={{
-              padding: "1%",
-              marginTop: "3%",
-              marginLeft: "45%",
-              marginBottom: "1%",
-            }}
-            onClick={getRecentTransactions}
-          >
-            Refresh
-          </Button>
-        </Box>
+        <>
+          {loading ? (
+            <Box sx={{ margin: "auto" }}>
+              <Oval
+                height={80}
+                width={80}
+                color="#4fa94d"
+                wrapperStyle={{}}
+                wrapperClass=""
+                visible={true}
+                ariaLabel="oval-loading"
+                secondaryColor="#4fa94d"
+                strokeWidth={2}
+                strokeWidthSecondary={2}
+              />
+            </Box>
+          ) : (
+            <Box>
+              <Title>Recent Transactions</Title>
+              <Table size="small">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>TimeStamp</TableCell>
+                    <TableCell>Credit / Debit</TableCell>
+                    <TableCell>Transaction Type</TableCell>
+                    <TableCell>Transaction Amount</TableCell>
+                    <TableCell>Receiver Account Number</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {recenttransactions.map((row) => (
+                    <TableRow key={row.transactionId}>
+                      <TableCell>{row.txtime}</TableCell>
+                      <TableCell>{row.creditOrDebit}</TableCell>
+                      <TableCell>{row.transactionType}</TableCell>
+                      <TableCell>{row.transactionAmount}</TableCell>
+                      <TableCell>{row.receiverAccountNumber}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+              <Button
+                variant="contained"
+                sx={{
+                  padding: "1%",
+                  marginTop: "3%",
+                  marginLeft: "45%",
+                  marginBottom: "1%",
+                }}
+                onClick={getRecentTransactions}
+              >
+                Refresh
+              </Button>
+            </Box>
+          )}
+        </>
       )}
     </React.Fragment>
   );

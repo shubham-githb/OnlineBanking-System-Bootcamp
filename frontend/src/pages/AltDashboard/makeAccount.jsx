@@ -1,7 +1,10 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import * as React from "react";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import Title from "./Title";
 
 import Avatar from "@mui/material/Avatar";
@@ -31,6 +34,10 @@ import { CheckBox } from "@mui/icons-material";
 const defaultTheme = createTheme();
 
 export default function MakeAccount() {
+  const pageReload = () => {
+    window.location.reload(false);
+  };
+  const navigate = useNavigate();
   const [customer, setcustomer] = useState(
     JSON.parse(sessionStorage.getItem("loggedInCustomer").toString())
   );
@@ -65,11 +72,21 @@ export default function MakeAccount() {
         setaccountBalance("");
         setdebitCardReq("");
         setcreditCardReq("");
+        toast.success("Account created successfully!", {
+          autoClose: 5000,
+          onClose: () => {
+            pageReload();
+          },
+        });
+      })
+      .catch((err) => {
+        toast.error("Invalid Inputs!", { autoClose: 5000 });
       });
   };
   return (
     <React.Fragment>
-      <Title>Create User</Title>
+      <ToastContainer />
+      <Title>Create Account</Title>
       <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
@@ -145,17 +162,34 @@ export default function MakeAccount() {
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DatePicker
                 label="Start Date"
-                defaultValue={dayjs("2023-09-23")}
                 onChange={(value) => {
                   let tp = new Date(value);
-                  let final =
-                    tp.getFullYear().toString() + "-" + tp.getMonth() < 10
-                      ? "0" + tp.getMonth().toString()
-                      : tp.getMonth().toString() +
-                        "-" +
-                        tp.getDate().toString();
-                  console.log(final.toString());
-                  setopendate(final);
+                  console.log(
+                    tp.getFullYear().toString() +
+                      "-" +
+                      tp.getMonth().toLocaleString("en-US", {
+                        minimumIntegerDigits: 2,
+                        useGrouping: false,
+                      }) +
+                      "-" +
+                      tp.getDate().toLocaleString("en-US", {
+                        minimumIntegerDigits: 2,
+                        useGrouping: false,
+                      })
+                  );
+                  setopendate(
+                    tp.getFullYear().toString() +
+                      "-" +
+                      tp.getMonth().toLocaleString("en-US", {
+                        minimumIntegerDigits: 2,
+                        useGrouping: false,
+                      }) +
+                      "-" +
+                      tp.getDate().toLocaleString("en-US", {
+                        minimumIntegerDigits: 2,
+                        useGrouping: false,
+                      })
+                  );
                 }}
                 sx={{ marginTop: "3%" }}
               />

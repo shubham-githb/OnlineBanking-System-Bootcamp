@@ -28,6 +28,8 @@ import { Oval, ProgressBar } from "react-loader-spinner";
 import AccountStatement from "./accountStatement";
 import AccountSummary from "./accountSummary";
 import MakeAccount from "./makeAccount";
+import AddFund from "./addFund";
+import WithdrawFund from "./withdrawFund";
 
 const drawerWidth = 240;
 
@@ -84,6 +86,17 @@ export default function AltDashboard() {
           <Toolbar />
           <Container maxWidth="xl" sx={{ mt: 4, mb: 4 }}>
             <Grid container spacing={3}>
+              <Grid item xs={12} md={8} lg={12}>
+                <Paper
+                  sx={{
+                    p: 2,
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
+                >
+                  <MakeAccount />
+                </Paper>
+              </Grid>
               <Grid item xs={12} md={4} lg={4.5}>
                 <Paper
                   sx={{
@@ -144,15 +157,28 @@ export default function AltDashboard() {
                   <AccountStatement />
                 </Paper>
               </Grid>
-              <Grid item xs={12} md={8} lg={12}>
+              <Grid item xs={12} md={8} lg={6}>
                 <Paper
                   sx={{
                     p: 2,
                     display: "flex",
                     flexDirection: "column",
+                    height: 350,
                   }}
                 >
-                  <MakeAccount />
+                  <AddFund />
+                </Paper>
+              </Grid>
+              <Grid item xs={12} md={8} lg={6}>
+                <Paper
+                  sx={{
+                    p: 2,
+                    display: "flex",
+                    flexDirection: "column",
+                    height: 350,
+                  }}
+                >
+                  <WithdrawFund />
                 </Paper>
               </Grid>
               <Grid item xs={12} md={8} lg={12}>

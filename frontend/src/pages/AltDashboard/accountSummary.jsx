@@ -24,6 +24,7 @@ export default function AccountSummary() {
   const [customer, setcustomer] = useState(
     JSON.parse(sessionStorage.getItem("loggedInCustomer"))
   );
+  const [altstatement, setaltstatement] = useState("");
   const [accounts, setaccounts] = useState([]);
   const [selectedaccount, setselectedaccount] = useState(0);
   const [accountsummary, setaccountsummary] = useState();
@@ -38,6 +39,11 @@ export default function AccountSummary() {
         setloading(false);
         setaccounts(res.data);
         console.log(res.data);
+      })
+      .catch((err) => {
+        console.log(err.response.data);
+        setaltstatement(err.response.data);
+        setloading(false);
       });
   };
 
@@ -49,8 +55,14 @@ export default function AccountSummary() {
     await axios
       .get(`http://localhost:8080/account/getAccountSummary/${selectedaccount}`)
       .then((res) => {
-        console.log(res.data.transactions);
-        setaccountsummary(res.data.transactions);
+        if (
+          res.data.responseText ===
+          "No tranactions have been made from this account."
+        ) {
+          setaccountsummary(res.data.responseText);
+        } else {
+          setaccountsummary(res.data.transactions);
+        }
       });
   };
 
@@ -82,32 +94,43 @@ export default function AccountSummary() {
             justifyContent: "space-between",
           }}
         >
-          <Table size="small" sx={{ margin: "10%" }}>
-            <TableHead>
-              <TableRow>
-                <TableCell>TimeStamp</TableCell>
-                <TableCell>Credit / Debit</TableCell>
-                <TableCell>Transaction Type</TableCell>
-                <TableCell>Transaction Amount</TableCell>
-                <TableCell>Receiver Account Number</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {accountsummary == null ? (
-                <></>
-              ) : (
-                accountsummary.map((row) => (
-                  <TableRow key={row.transactionId}>
-                    <TableCell>{row.txtime}</TableCell>
-                    <TableCell>{row.creditOrDebit}</TableCell>
-                    <TableCell>{row.transactionType}</TableCell>
-                    <TableCell>{row.transactionAmount}</TableCell>
-                    <TableCell>{row.receiverAccountNumber}</TableCell>
-                  </TableRow>
-                ))
-              )}
-            </TableBody>
-          </Table>
+          {accountsummary ===
+          "No tranactions have been made from this account." ? (
+            <>
+              <Box
+                sx={{ margin: "auto", textAlign: "center", marginBottom: "3%" }}
+              >
+                <Title>Customer has not made any transactions yet!</Title>
+              </Box>
+            </>
+          ) : (
+            <Table size="small" sx={{ margin: "10%" }}>
+              <TableHead>
+                <TableRow>
+                  <TableCell>TimeStamp</TableCell>
+                  <TableCell>Credit / Debit</TableCell>
+                  <TableCell>Transaction Type</TableCell>
+                  <TableCell>Transaction Amount</TableCell>
+                  <TableCell>Receiver Account Number</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {accountsummary == null ? (
+                  <></>
+                ) : (
+                  accountsummary.map((row) => (
+                    <TableRow key={row.transactionId}>
+                      <TableCell>{row.txtime}</TableCell>
+                      <TableCell>{row.creditOrDebit}</TableCell>
+                      <TableCell>{row.transactionType}</TableCell>
+                      <TableCell>{row.transactionAmount}</TableCell>
+                      <TableCell>{row.receiverAccountNumber}</TableCell>
+                    </TableRow>
+                  ))
+                )}
+              </TableBody>
+            </Table>
+          )}
         </Box>
       </Dialog>
     );
@@ -115,63 +138,74 @@ export default function AccountSummary() {
 
   return (
     <React.Fragment>
-      <Title>Get Account Summary</Title>
-      {loading ? (
-        <Box sx={{ margin: "auto" }}>
-          <Oval
-            height={80}
-            width={80}
-            color="#4fa94d"
-            wrapperStyle={{}}
-            wrapperClass=""
-            visible={true}
-            ariaLabel="oval-loading"
-            secondaryColor="#4fa94d"
-            strokeWidth={2}
-            strokeWidthSecondary={2}
-          />
-        </Box>
+      {altstatement !== "" ? (
+        <>
+          <Title>Get Account Summary</Title>
+          <Box sx={{ margin: "auto", textAlign: "center" }}>
+            <Title>Customer has not made any accounts yet!</Title>
+          </Box>
+        </>
       ) : (
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <FormControl fullWidth sx={{ margin: "2%", marginTop: "10%" }}>
-            <InputLabel id="accountselect">Select Account</InputLabel>
-            <Select
-              labelId="accountselect"
-              id="accountselect"
-              value={selectedaccount}
-              label="Account"
-              onChange={(evt) => setselectedaccount(evt.target.value)}
+        <>
+          <Title>Get Account Summary</Title>
+          {loading ? (
+            <Box sx={{ margin: "auto" }}>
+              <Oval
+                height={80}
+                width={80}
+                color="#4fa94d"
+                wrapperStyle={{}}
+                wrapperClass=""
+                visible={true}
+                ariaLabel="oval-loading"
+                secondaryColor="#4fa94d"
+                strokeWidth={2}
+                strokeWidthSecondary={2}
+              />
+            </Box>
+          ) : (
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
             >
-              {accounts.map((account) => (
-                <MenuItem
-                  key={account.accountNumber}
-                  value={account.accountNumber}
+              <FormControl fullWidth sx={{ margin: "2%", marginTop: "10%" }}>
+                <InputLabel id="accountselect">Select Account</InputLabel>
+                <Select
+                  labelId="accountselect"
+                  id="accountselect"
+                  value={selectedaccount}
+                  label="Account"
+                  onChange={(evt) => setselectedaccount(evt.target.value)}
                 >
-                  {account.accountNumber}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-          <Button
-            variant="contained"
-            sx={{ padding: "3%", margin: "4%", marginTop: "10%" }}
-            onClick={handleAccountSummary}
-          >
-            Get Account Summary
-          </Button>
-          <SimpleDialog
-            open={open}
-            onClose={handleClose}
-            accountsummary={accountsummary}
-          />
-        </Box>
+                  {accounts.map((account) => (
+                    <MenuItem
+                      key={account.accountNumber}
+                      value={account.accountNumber}
+                    >
+                      {account.accountNumber}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <Button
+                variant="contained"
+                sx={{ padding: "3%", margin: "4%", marginTop: "10%" }}
+                onClick={handleAccountSummary}
+              >
+                Get Account Summary
+              </Button>
+              <SimpleDialog
+                open={open}
+                onClose={handleClose}
+                accountsummary={accountsummary}
+              />
+            </Box>
+          )}
+        </>
       )}
     </React.Fragment>
   );
